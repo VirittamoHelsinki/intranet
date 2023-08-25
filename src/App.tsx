@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
     ChevronLeftIcon,
     HomeIcon,
@@ -5,6 +6,7 @@ import {
     CalendarRangeIcon,
     CalendarDaysIcon,
     HelpCircleIcon,
+    CalendarIcon,
 } from "lucide-react";
 import {
     Card,
@@ -16,7 +18,7 @@ import {
 import { Button } from "./components/ui/button";
 import { Separator } from "./components/ui/separator";
 import { Calendar } from "./components/ui/calendar";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "./components/ui/dialog";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "./components/ui/dialog";
 import { Label } from "./components/ui/label";
 import { Input } from "./components/ui/input";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "./components/ui/select";
@@ -29,6 +31,9 @@ import {
     PolarRadiusAxis,
     ResponsiveContainer
 } from "recharts";
+import { Popover, PopoverContent, PopoverTrigger } from "./components/ui/popover";
+import { cn } from "./lib/utils";
+import { format } from 'date-fns';
 
 const data = [
     {
@@ -69,24 +74,52 @@ const data = [
     }
 ];
 
+function DatePicker(){
+    const [date, setDate] = useState<Date>()
+    return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button
+          variant={"outline"}
+          className={cn(
+            "w-[220px] justify-start text-left font-normal",
+            !date && "text-muted-foreground"
+          )}
+        >
+          <CalendarIcon className="mr-2 h-4 w-4" />
+          {date ? format(date, "PPP") : <span>Varaus Päivä</span>}
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-auto p-0">
+        <Calendar
+          mode="single"
+          selected={date}
+          onSelect={setDate}
+          initialFocus
+        />
+      </PopoverContent>
+    </Popover>
+    )
+    }
+
 function ReserveMeetingDialog() {
     return (
         <Dialog>
             <DialogTrigger asChild>
                 <Button>Varaa Aika</Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-2xl">
                 <DialogHeader>
                     <DialogTitle>Kuutio Ajanvaraus</DialogTitle>
                 </DialogHeader>
-                <div className="grid gap-4 py-4">
-                    <div className="grid grid-cols-4 items-center gap-4">
+                <div className="flex flex-wrap gap-2 py-4">
+                    <div className="col-span-3 flex flex-col items-start gap-2">
                         <Label htmlFor="name" className="text-right">
                             Aihe
                         </Label>
-                        <Input id="name" value="asiakastapaminen" className="col-span-3" />
+                        <Input id="name" placeholder="kirjoitaa aihe..." className="col-span-3" />
                     </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
+                    <div className="col-span-2 flex flex-col items-start gap-2">
                         <Label htmlFor="username" className="text-right">
                             Paikka
                         </Label>
@@ -99,14 +132,57 @@ function ReserveMeetingDialog() {
                                     <SelectLabel>Paikat</SelectLabel>
                                     <SelectItem value="apple">Kuutio</SelectItem>
                                     <SelectItem value="banana">Softa Corner</SelectItem>
-                                    <SelectItem value="blueberry">ICT Media Corner</SelectItem>
+                                    <SelectItem value="blueberry">ICT Corner</SelectItem>
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    <div className="flex flex-col items-start gap-2">
+                        <Label htmlFor="name" className="text-right">
+                            Varauspäivä
+                        </Label>
+                      <DatePicker />
+                    </div>
+
+                    <div className="flex flex-col items-start gap-2">
+                        <Label htmlFor="username" className="text-right">
+                            Kesto
+                        </Label>
+                        <Select>
+                            <SelectTrigger className="w-[120px]">
+                                <SelectValue placeholder="Kesto" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    <SelectLabel>Kesto</SelectLabel>
+                                    <SelectItem value="30min">30 min</SelectItem>
+                                    <SelectItem value="1h">1 h</SelectItem>
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    <div className="flex flex-col items-start gap-2">
+                        <Label htmlFor="username" className="text-right">
+                            Aika
+                        </Label>
+                        <Select>
+                            <SelectTrigger className="w-[180px]">
+                                <SelectValue placeholder="Valitse Aika" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    <SelectLabel>Aika</SelectLabel>
+                                    <SelectItem value="08:00-08:30">08:00 - 08:03</SelectItem>
+                                    <SelectItem value="09:00-10:00">09:00 - 10:00</SelectItem>
+                                    <SelectItem value="11:30-12:00">11:30 - 12:00</SelectItem>
                                 </SelectGroup>
                             </SelectContent>
                         </Select>
                     </div>
                 </div>
                 <DialogFooter>
-                    <Button type="submit">Save changes</Button>
+                    <Button variant='outline'>Peru</Button>
+                    <Button type="submit">Varaa aika</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
@@ -288,7 +364,7 @@ export default function App() {
                             <CardTitle className="text-sm">My Skills</CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <ResponsiveContainer width="100%" height={200}>
+                            <ResponsiveContainer width="100%" height={250}>
                                 <RadarChart data={data}>
                                     <PolarGrid />
                                     <PolarAngleAxis dataKey="subject" />
@@ -317,4 +393,3 @@ export default function App() {
         </div>
     );
 }
-
