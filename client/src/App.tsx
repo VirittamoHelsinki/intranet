@@ -37,70 +37,83 @@ import { format } from 'date-fns';
 
 const data = [
     {
-        subject: "Math",
+        subject: "TypeScript",
         A: 120,
         B: 110,
         fullMark: 150
     },
     {
-        subject: "Chinese",
+        subject: "Algorithm",
         A: 98,
         B: 130,
         fullMark: 150
     },
     {
-        subject: "English",
+        subject: 'Fullstack',
+        A: 54,
+        B: 20,
+        fullMark: 150
+    },
+    {
+        subject: "Data Visualizition",
         A: 86,
         B: 130,
         fullMark: 150
     },
     {
-        subject: "Geography",
+        subject: "DevOPS",
         A: 99,
         B: 100,
         fullMark: 150
     },
     {
-        subject: "Physics",
+        subject: "MySQL",
         A: 85,
         B: 90,
         fullMark: 150
     },
     {
-        subject: "History",
+        subject: "UI/UX Design",
+        A: 65,
+        B: 85,
+        fullMark: 150
+    },
+    {
+        subject: "Rust",
         A: 65,
         B: 85,
         fullMark: 150
     }
+
 ];
 
-function DatePicker(){
+function DatePicker() {
     const [date, setDate] = useState<Date>()
     return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button
-          variant={"outline"}
-          className={cn(
-            "w-[220px] justify-start text-left font-normal",
-            !date && "text-muted-foreground"
-          )}
-        >
-          <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? format(date, "PPP") : <span>Varaus Päivä</span>}
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-auto p-0">
-        <Calendar
-          mode="single"
-          selected={date}
-          onSelect={setDate}
-          initialFocus
-        />
-      </PopoverContent>
-    </Popover>
+        <Popover>
+            <PopoverTrigger asChild>
+                <Button
+                    variant={"outline"}
+                    className={cn(
+                        "w-[220px] justify-start text-left font-normal",
+                        !date && "text-muted-foreground"
+                    )}
+                >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {date ? format(date, "PPP") : <span>Varaus Päivä</span>}
+                </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0">
+                <Calendar
+                    mode="single"
+                    selected={date}
+                    onSelect={setDate}
+                    initialFocus
+                />
+            </PopoverContent>
+        </Popover>
     )
-    }
+}
 
 function ReserveMeetingDialog() {
     return (
@@ -141,7 +154,7 @@ function ReserveMeetingDialog() {
                         <Label htmlFor="name" className="text-right">
                             Varauspäivä
                         </Label>
-                      <DatePicker />
+                        <DatePicker />
                     </div>
 
                     <div className="flex flex-col items-start gap-2">
@@ -189,77 +202,146 @@ function ReserveMeetingDialog() {
     )
 }
 
-export default function App() {
-    <h2 className="border-b-2 border-black/30 text-2xl text-black/30">
-        Hallinto
-    </h2>;
-
+function WorkPlanner() {
     return (
-        <div className="flex h-screen w-screen font-body">
-            <header className="flex flex-col gap-10 border px-10 pt-20">
-                <div className="flex justify-between">
-                    <h1 className="font-display text-5xl font-bold">Intranet</h1>
-                    <ChevronLeftIcon className="h-12 w-12" />
-                </div>
-                <nav className="flex flex-grow flex-col justify-around">
-                    <menu className="flex flex-col gap-7">
-                        <a href="/" className="flex gap-3 text-xl">
-                            <HomeIcon />
-                            <span>Etusivu</span>
-                        </a>
-                        <a href="/kuutio" className="flex gap-3 text-xl">
-                            <CalendarClockIcon />
-                            <span>Kuutio</span>
-                        </a>
-                        <a href="/kuutio" className="flex gap-3 text-xl">
-                            <CalendarRangeIcon />
-                            <span>Työaikaleimaus</span>
-                        </a>
-                        <a href="/kuutio" className="flex gap-3 text-xl">
-                            <CalendarDaysIcon />
-                            <span>Työvuorosuunnitelma</span>
-                        </a>
-                    </menu>
-                    <menu className="flex flex-col gap-1">
-                        <div>
-                            <h2 className="text-2xl text-slate-100">Hallinto</h2>
-                            <Separator className="h-[2px]" />
+        <Dialog>
+            <DialogTrigger asChild>
+                <Button>Suunnitele</Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-2xl">
+                <DialogHeader>
+                    <DialogTitle>Työvuorosuunnitelma</DialogTitle>
+                </DialogHeader>
+                <div className="flex flex-wrap gap-2 py-4">
+                    <div className="flex flex-col flex-1 items-start gap-2">
+                        <Calendar />
+                    </div>
+                    <div className='flex flex-wrap flex-1 gap-1'>
+                        <div className="flex flex-col items-start gap-2">
+                            <Label htmlFor="name" className="text-right">
+                                Varauspäivä
+                            </Label>
+                            <DatePicker />
                         </div>
-                        <a href="/aava" className="text-xl">
-                            Aava
-                        </a>
-                        <a href="/taitovarasto" className="text-xl">
-                            Taitovarasto
-                        </a>
-                    </menu>
-                    <menu className="flex flex-col gap-1">
-                        <h2 className="border-b-2 border-black/30 text-2xl text-black/30">
-                            Muuta
-                        </h2>
-                        <a href="/" className="text-xl">
-                            ForeAmmatti
-                        </a>
-                        <a href="/" className="text-xl">
-                            Intro
-                        </a>
-                        <a href="/" className="text-xl">
-                            Sarastia
-                        </a>
-                    </menu>
-                </nav>
-                <a href="/" className="flex gap-3 text-xl">
-                    <HelpCircleIcon />
-                    Tuki
-                </a>
-                <Separator />
-                <div className="flex items-center justify-center gap-3 py-5">
-                    <div className="h-10 w-10 rounded bg-rose-50" />
-                    <div>
-                        <p>Arto Aitta</p>
-                        <span className="opacity-30">arto.aitta@edu.hel.fi</span>
+
+                        <div className="flex flex-col items-start gap-2">
+                            <Label htmlFor="username" className="text-right">
+                                Kesto
+                            </Label>
+                            <Select>
+                                <SelectTrigger className="w-[120px]">
+                                    <SelectValue placeholder="Kesto" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        <SelectLabel>Kesto</SelectLabel>
+                                        <SelectItem value="30min">30 min</SelectItem>
+                                        <SelectItem value="1h">1 h</SelectItem>
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+                        </div>
+                        <div className="flex flex-col items-start gap-2">
+                            <Label htmlFor="username" className="text-right">
+                                Aika
+                            </Label>
+                            <Select>
+                                <SelectTrigger className="w-[180px]">
+                                    <SelectValue placeholder="Valitse Aika" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        <SelectLabel>Aika</SelectLabel>
+                                        <SelectItem value="08:00-08:30">08:00 - 08:03</SelectItem>
+                                        <SelectItem value="09:00-10:00">09:00 - 10:00</SelectItem>
+                                        <SelectItem value="11:30-12:00">11:30 - 12:00</SelectItem>
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+                        </div>
                     </div>
                 </div>
-            </header>
+                <DialogFooter>
+                    <Button variant='outline'>Peru</Button>
+                    <Button type="submit">Submit</Button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
+    )
+}
+function Sidebar() {
+    return (
+        <header className="flex flex-col gap-10 border px-10 pt-20">
+            <div className="flex justify-between">
+                <h1 className="font-display text-5xl font-bold">Intranet</h1>
+                <ChevronLeftIcon className="h-12 w-12" />
+            </div>
+            <nav className="flex flex-grow flex-col justify-around">
+                <menu className="flex flex-col gap-7">
+                    <a href="/" className="flex gap-3 text-xl">
+                        <HomeIcon />
+                        <span>Etusivu</span>
+                    </a>
+                    <a href="/kuutio" className="flex gap-3 text-xl">
+                        <CalendarClockIcon />
+                        <span>Kuutio</span>
+                    </a>
+                    <a href="/kuutio" className="flex gap-3 text-xl">
+                        <CalendarRangeIcon />
+                        <span>Työaikaleimaus</span>
+                    </a>
+                    <a href="/kuutio" className="flex gap-3 text-xl">
+                        <CalendarDaysIcon />
+                        <span>Työvuorosuunnitelma</span>
+                    </a>
+                </menu>
+                <menu className="flex flex-col gap-1">
+                    <div>
+                        <h2 className="text-2xl text-slate-100">Hallinto</h2>
+                        <Separator className="h-[2px]" />
+                    </div>
+                    <a href="/aava" className="text-xl">
+                        Aava
+                    </a>
+                    <a href="/taitovarasto" className="text-xl">
+                        Taitovarasto
+                    </a>
+                </menu>
+                <menu className="flex flex-col gap-1">
+                    <h2 className="border-b-2 border-black/30 text-2xl text-black/30">
+                        Muuta
+                    </h2>
+                    <a href="https://www.foreammatti.fi" className="text-xl">
+                        ForeAmmatti
+                    </a>
+                    <a href="https://intro.elbit.fi" className="text-xl">
+                        Intro
+                    </a>
+                    <a href="https://www.sarastia.fi" className="text-xl">
+                        Sarastia
+                    </a>
+                </menu>
+            </nav>
+            <a href="/" className="flex gap-3 text-xl">
+                <HelpCircleIcon />
+                Tuki
+            </a>
+            <Separator />
+            <div className="flex items-center justify-center gap-3 py-5">
+                <div className="h-10 w-10 rounded bg-rose-50" />
+                <div>
+                    <p>Arto Aitta</p>
+                    <span className="opacity-30">arto.aitta@edu.hel.fi</span>
+                </div>
+            </div>
+        </header>
+    )
+}
+
+export default function App() {
+    return (
+        <div className="flex h-screen w-screen font-body">
+            <Sidebar />
             <main className="flex flex-col px-20 pt-20">
                 <h2 className="pb-5 font-display text-[2.5rem] font-bold">
                     Yhteenveto
@@ -272,7 +354,7 @@ export default function App() {
                         </CardHeader>
                         <CardContent className="flex flex-grow justify-center items-center">
                             <div className='flex justify-center items-center border-2 rounded-full w-52 h-52'>
-                                <p className="text-5xl">8:00</p>
+                                <p className="text-5xl">{new Date().toLocaleTimeString('fi-FI', { hour: "2-digit", minute: "2-digit" })}</p>
                             </div>
                         </CardContent>
                         <CardFooter className="flex justify-center items-center">
@@ -355,7 +437,7 @@ export default function App() {
                                         9:00
                                     </span>
                                 </div>
-                                <Button className="">Suunnittele</Button>
+                                <WorkPlanner />
                             </div>
                         </CardContent>
                     </Card>
