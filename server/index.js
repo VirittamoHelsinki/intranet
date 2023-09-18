@@ -6,13 +6,13 @@ const path = require('path')
 const {
     requestLogger, unknownEndpoint, errorHandler, logger
 } = require('./middleware/middlewares')
-const { port, environmentMode } = require('./utils/config')
+const { port, environment } = require('./utils/config')
 const authorizeRouter = require('./controllers/authorizeRouter')
 
 const app = express()
 
 // Apply middlewares that need to be added before the routes.
-if (environmentMode === 'development') app.use(require('cors')())
+if (environment === 'development') app.use(require('cors')())
 app.use(express.json())
 app.use(express.static('build'))
 app.use(requestLogger)

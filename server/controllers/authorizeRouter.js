@@ -1,7 +1,7 @@
-const jwt = require('jsonwebtoken')
 const crypto = require('crypto')
+const axios = require('axios')
 const authorizeRouter = require('express').Router()
-const { domain_key, secret } = require('../utils/config')
+const { domain_key } = require('../utils/config')
 const { requireAuthorization } = require('../middleware/authorize')
 
 // a storage where temporary keys are mapped to tokens. Which
@@ -28,7 +28,8 @@ authorizeRouter.post('/', async (req, res, next) => {
     try {
         const body = req.body
         
-        if (!body.email) return res.status(400).send('email, was not provided')
+        if (!body.email)      return res.status(400).send('email, was not provided')
+        if (!body.token)      return res.status(401).send('token missing')
         if (!body.domain_key) return res.status(401).send('invalid key')
 
         if (body.domain_key !== domain_key) {
@@ -36,19 +37,12 @@ authorizeRouter.post('/', async (req, res, next) => {
             return res.status(401).send('invalid key')
         }
 
-        const userForToken = {
-            email: body.email
-        }
-
-        // Generate a token.
-        const service_token = jwt.sign(userForToken, secret, { expiresIn: '1d' })
-        
         // Generate a key that is guaranteed to be unique.
         const service_key = crypto.randomUUID()
 
         // Store the service_token in the tokenStorage with the service_key as the key.
         tokenStorage.set(service_key, {
-            token: service_token,
+            token: body.token,
             expires: Date.now() + 600000 // expires in 10 minutes
         })
 

@@ -1,48 +1,37 @@
-const jwt = require('jsonwebtoken')
+const axios = require('axios')
+const { users_url, domain_key } = require('../utils/config')
 
-const getTokenFrom = (req) => {
-  const authorization = req.get('authorization')
-
-  // 'remove "bearer " from the beginning of the string'
-  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-    return authorization.substring(7)
-  }
-
-  return null
-}
-
+// Ask authorization from the users service.
 const requireAuthorization = async (req, res, next) => {
-  try {
-    const token = getTokenFrom(req)
-    let decodedToken = null
+    try {
+      const token = req.get('authorization')
 
-    console.log('token:', token)
-
-    decodedToken = jwt.verify(token, process.env.SECRET)
-    
-    if (!token || !decodedToken.email) {
-      return res.status(401).json({ error: 'token missing or invalid' })
-    }
-  
-    res.locals.user = {
-        email: decodedToken.email
-    }
-
-    next()
-
-  } catch (exception) {
-    if (exception.name === 'JsonWebTokenError') {
+      if(!token) return res.status(401).send('token missing')
       
-      return res.status(401).json({ error: exception.message })
-    } else {
-      console.log(exception)
+      const response = await axios.get(
+        `${users_url}/api/authorize`,
+  
+        // Send the authentication password, so that
+        // the service knows its the user service that is sending the request.
+        { email: user.email, domain_key: domainKeys[domain] },
+        { headers: { 'Authorization': token }}
+      )
 
-      return res.status(500).json({
-        error: 'something went wrong during the authorization check...'
-      })
-    }
+      if (response.status !== 200) {
+        return res.status(401).send('Authorization failed in the users service.')
+      }
+
+      // Save user data included in the token to res.locals.
+      res.locals.user = {
+        email: response.data.email,
+        admin: response.data.admin,
+        access: response.data.access
+      }
+  
+      next()
+  
+    } catch (exception) { next(exception) }
   }
-}
 
 module.exports = {
   requireAuthorization

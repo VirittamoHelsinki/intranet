@@ -1,16 +1,16 @@
 require('dotenv').config()
 
-const environmentMode = process.env.NODE_ENV
+const environment = process.env.NODE_ENV
 
 const port = process.env.PORT
 
-const secret = process.env.SECRET
-
 const domain_key = process.env.DOMAIN_KEY
 
+const users_url = process.env.USERS_URL_DEV
+
 module.exports = {
+    environment,
     port,
-    secret,
     domain_key,
-    environmentMode
+    users_url
 }
