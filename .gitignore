@@ -7,7 +7,12 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-package.json
+**/node_modules/
+**/package-lock.json
+**/*.code.workspace*
+**/.env*
+**/.DS_Store
+
 pnpm-lock.yaml
 
 node_modules
