@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { apiUrl } from '../config'
+import { apiUrl, usersUrl } from '../config'
 
 const url: string = `${apiUrl}/authorize`
 let token: string = ''
@@ -29,7 +29,15 @@ const getToken = async (key: string) => {
 
     setToken(response.data.token)
 
-    return response.data
+    return response.data.token
 }
 
-export { setToken, requestConfig, getToken }
+const logout = async () => {
+    const response = await axios.get(
+        `${usersUrl}/api/authorize/logout`, requestConfig()
+    )
+
+    return response
+}
+
+export default { setToken, requestConfig, getToken, logout }
