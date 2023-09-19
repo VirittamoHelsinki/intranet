@@ -35,6 +35,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "./components/ui/popover
 import { cn } from "./lib/utils";
 import { format } from 'date-fns';
 
+import Authorize from './components/renderless/Authorize';
+
 const data = [
     {
         subject: "TypeScript",
@@ -337,10 +339,11 @@ function Sidebar() {
         </header>
     )
 }
-
+// <Authorize />
 export default function App() {
     return (
         <div className="flex h-screen w-screen font-body">
+            
             <Sidebar />
             <main className="flex flex-col px-20 pt-20">
                 <h2 className="pb-5 font-display text-[2.5rem] font-bold">

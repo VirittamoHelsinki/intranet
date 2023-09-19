@@ -1,7 +1,12 @@
 import { create } from 'zustand'
 
-// Create a custom hook called useStore using Zustand library
-const useStore = create(set => ({
+interface State {
+    user: any,
+    setUser: (user: any) => void
+}
+
+// Create a custom hook for the store using Zustand library.
+const useStore = create<State>()(set => ({
     
     // initial state variables
     user: null,

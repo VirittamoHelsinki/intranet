@@ -24,12 +24,21 @@ const requestConfig = (object?: any) => {
 }
 
 // Get token from the backend using the key.
-const getToken = async (key: string) => {
+const getToken = async (key: string | null) => {
     const response = await axios.get(`${url}/${key}`)
 
     setToken(response.data.token)
 
     return response.data.token
+}
+
+// get the user saved into the token.
+const getUser = async () => {
+    const response = await axios.get(
+        `${usersUrl}/api/authorize`, requestConfig()
+    )
+
+    return response.data
 }
 
 const logout = async () => {
@@ -40,4 +49,4 @@ const logout = async () => {
     return response
 }
 
-export default { setToken, requestConfig, getToken, logout }
+export default { setToken, requestConfig, getToken, getUser, logout }
