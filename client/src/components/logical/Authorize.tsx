@@ -5,7 +5,7 @@ import Cookies from 'universal-cookie'
 // file imports
 import authorizeApi from '../../api/authorize'
 import useStore from '../../store/store'
-import { usersUrl } from '../../config'
+import { usersUrl, domain } from '../../config'
 
 const Authorize = () => {
     const { setUser, user } = useStore()
@@ -13,7 +13,6 @@ const Authorize = () => {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const service_key: string | null  = urlParams.get("service_key")
-    console.log('service_key ------>', service_key)
 
     const cookies = new Cookies()
 
@@ -66,10 +65,9 @@ const Authorize = () => {
         setUser(null)
     }
 
-
     if (user) return <a onClick={logout}>logout</a>
     
-    return <a href={usersUrl}>login</a>
+    return <a href={`${usersUrl}/?domain=${domain}`}>login</a>
 }
 
 export default Authorize
