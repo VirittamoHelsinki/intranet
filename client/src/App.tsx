@@ -35,7 +35,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "./components/ui/popover
 import { cn } from "./lib/utils";
 import { format } from 'date-fns';
 
-import Authorize from './components/renderless/Authorize';
+import Authorize from './components/logical/Authorize';
 
 const data = [
     {

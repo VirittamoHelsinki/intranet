@@ -26,7 +26,7 @@ const Authorize = () => {
     const getAuthorization = async () => {
         try {
         
-        // Exchange the service key for a token.
+        // Exchange the service_key for a token.
         const token = await authorizeApi.getToken(service_key)
         
         // Save the token as a cookie.
@@ -67,10 +67,9 @@ const Authorize = () => {
     }
 
 
-    // if (user) return (<a onClick={logout}>logout</a>)
+    if (user) return <a onClick={logout}>logout</a>
     
-    // return (<a href={usersUrl}>login</a>)
-    return null
+    return <a href={usersUrl}>login</a>
 }
 
 export default Authorize
