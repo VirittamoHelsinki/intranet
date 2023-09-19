@@ -1,5 +1,4 @@
 const environment = import.meta.env.MODE
-console.log('environment:', import.meta.env)
 
 // Development mode configuration (default)
 let apiUrl:string = import.meta.env.VITE_API_URL_DEV

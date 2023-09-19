@@ -339,11 +339,20 @@ function Sidebar() {
         </header>
     )
 }
-// <Authorize />
+
 export default function App() {
     return (
         <div className="flex h-screen w-screen font-body">
-            <Authorize />
+            <Authorize linkStyle={{
+                position: 'absolute',
+                top: '10%',
+                fontSize: '0.9rem',
+                right: '5%',
+                color: 'white',
+                padding: '10px',
+                background: 'rgb(15 23 42)',
+                borderRadius: '4px'
+            }}/>
             <Sidebar />
             <main className="flex flex-col px-20 pt-20">
                 <h2 className="pb-5 font-display text-[2.5rem] font-bold">

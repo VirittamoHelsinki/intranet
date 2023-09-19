@@ -4,10 +4,10 @@ import Cookies from 'universal-cookie'
 
 // file imports
 import authorizeApi from '../../api/authorize'
-import useStore from '../../store/store'
+import useStore from '../../store'
 import { usersUrl, domain } from '../../config'
 
-const Authorize = () => {
+const Authorize = (props: any) => {
     const { setUser, user } = useStore()
     
     const queryString = window.location.search;
@@ -37,6 +37,8 @@ const Authorize = () => {
 
         setUser(await authorizeApi.getUser())
 
+        window.location.href = '/'
+
         } catch (error) { console.log(error) }
     }
 
@@ -65,9 +67,20 @@ const Authorize = () => {
         setUser(null)
     }
 
-    if (user) return <a onClick={logout}>logout</a>
+    if (user) return (
+      <a
+        href="/"
+        onClick={logout}
+        style={props.linkStyle}
+      >Kirjaudu ulos</a>
+    )
     
-    return <a href={`${usersUrl}/?domain=${domain}`}>login</a>
+    return (
+      <a
+        href={`${usersUrl}/?domain=${domain}`}
+        style={props.linkStyle}
+      >Kirjaudu</a>
+    )
 }
 
 export default Authorize
