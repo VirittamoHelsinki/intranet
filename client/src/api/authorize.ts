@@ -46,6 +46,8 @@ const logout = async () => {
         `${usersUrl}/api/authorize/logout`, requestConfig()
     )
 
+    setToken('')
+
     return response
 }
 

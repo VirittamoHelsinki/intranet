@@ -1,15 +1,16 @@
-const environment = process.env.NODE_ENV
+const environment = import.meta.env.NODE_ENV
+console.log(environment)
 
 // Development mode configuration (default)
-let apiUrl = process.env.REACT_APP_API_URL_DEV
-let usersUrl = process.env.REACT_APP_USERS_URL_DEV
-let domain = process.env.REACT_APP_DOMAIN_DEV
+let apiUrl:string = import.meta.env.API_URL_DEV
+let usersUrl:string = import.meta.env.USERS_URL_DEV
+let domain:string = import.meta.env.DOMAIN_DEV
 
 if (environment === 'production'){
     // production mode configuration
-    apiUrl = process.env.REACT_APP_API_URL_PROD
-    usersUrl = process.env.REACT_APP_USERS_URL_PROD
-    domain = process.env.REACT_APP_DOMAIN_PROD
+    apiUrl = import.meta.env.API_URL_PROD
+    usersUrl = import.meta.env.USERS_URL_PROD
+    domain = import.meta.env.DOMAIN_PROD
 }
 
 export { environment, apiUrl, usersUrl, domain }

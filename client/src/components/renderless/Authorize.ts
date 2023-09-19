@@ -1,73 +1,76 @@
-// // node module imports
-// import { useEffect } from 'react'
-// //import { useSearchParams, useNavigate } from 'react-router-dom'
-// import Cookies from 'universal-cookie'
+// node module imports
+import { useEffect } from 'react'
+import Cookies from 'universal-cookie'
 
-// // file imports
-// import authorizeApi from '../../api/authorize'
-// import useStore from '../../store/store'
+// file imports
+import authorizeApi from '../../api/authorize'
+import useStore from '../../store/store'
+import { usersUrl } from '../../config'
 
-// const Authorize = () => {
-//     const { setUser } = useStore()
-
-//     //const navigate = useNavigate()
-
-//     //const [searchParams] = useSearchParams()
+const Authorize = () => {
+    const { setUser, user } = useStore()
     
-//     //const service_key: string | null  = urlParams.get("service_key")
-    
-//     const queryString = window.location.search;
-//     const urlParams = new URLSearchParams(queryString);
-//     const service_key: string | null  = urlParams.get("service_key")
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const service_key: string | null  = urlParams.get("service_key")
+    console.log('service_key ------>', service_key)
 
-//     const cookies = new Cookies()
+    const cookies = new Cookies()
 
-//     useEffect(() => {
-//         loadTokenFromCookies()
+    useEffect(() => {
+        loadTokenFromCookies()
         
-//         if (service_key) getAuthorization()
-//     }, [])
+        if (service_key) getAuthorization()
+    }, [])
 
-//     const getAuthorization = async () => {
-//         try {
+    const getAuthorization = async () => {
+        try {
         
-//         // Exchange the service key for a token.
-//         const token = await authorizeApi.getToken(service_key)
+        // Exchange the service key for a token.
+        const token = await authorizeApi.getToken(service_key)
         
-//         //navigate('/')
-        
-//         // Save the token as a cookie.
-//         cookies.set('portalToken', token, {
-//             // Cookie expires in 60 days.
-//             expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 60),
-//             path: '/',
-//         })
+        // Save the token as a cookie.
+        cookies.set('portalToken', token, {
+            // Cookie expires in 60 days.
+            expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 60),
+            path: '/',
+        })
 
-//         setUser(await authorizeApi.getUser())
+        setUser(await authorizeApi.getUser())
 
-//         } catch (error) { console.log(error) }
-//     }
+        } catch (error) { console.log(error) }
+    }
 
-//     const loadTokenFromCookies = async () => {
-//         const portalToken = cookies.get('portalToken')
+    const loadTokenFromCookies = async () => {
+        const portalToken = cookies.get('portalToken')
     
-//         if (portalToken) {
+        if (portalToken) {
     
-//           // Initialize the user state with the token from the cookie.
-//           authorizeApi.setToken(portalToken)
+          // Initialize the user state with the token from the cookie.
+          authorizeApi.setToken(portalToken)
     
-//           try {
-//             // Load user information from the server.
-//             setUser(await authorizeApi.getUser())
+          try {
+            // Load user information from the server.
+            setUser(await authorizeApi.getUser())
           
-//           } catch (error) {
-//             // If the token is invalid, remove it from the cookie.
-//             cookies.remove('portalToken')
-//           }
-//         }
-//       }
+          } catch (error) {
+            // If the token is invalid, remove it from the cookie.
+            cookies.remove('portalToken')
+          }
+        }
+    }
 
-//     return null
-// }
+    const logout = async () => {
+        await authorizeApi.logout()
+        cookies.remove('portalToken')
+        setUser(null)
+    }
 
-// export default Authorize
+
+    // if (user) return (<a onClick={logout}>logout</a>)
+    
+    // return (<a href={usersUrl}>login</a>)
+    return null
+}
+
+export default Authorize

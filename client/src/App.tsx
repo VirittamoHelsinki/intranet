@@ -343,7 +343,7 @@ function Sidebar() {
 export default function App() {
     return (
         <div className="flex h-screen w-screen font-body">
-            
+            <Authorize />
             <Sidebar />
             <main className="flex flex-col px-20 pt-20">
                 <h2 className="pb-5 font-display text-[2.5rem] font-bold">
