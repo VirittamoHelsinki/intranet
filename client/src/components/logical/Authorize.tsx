@@ -30,8 +30,8 @@ const Authorize = (props: any) => {
         
         // Save the token as a cookie.
         cookies.set('portalToken', token, {
-            // Cookie expires in 60 days.
-            expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 60),
+            // Cookie expires in 3 days.
+            expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 3),
             path: '/',
         })
 
