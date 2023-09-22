@@ -38,10 +38,10 @@ authorizeRouter.post('/', async (req, res, next) => {
         }
 
         // Generate a key that is guaranteed to be unique.
-        const service_key = crypto.randomUUID()
+        const user_key = crypto.randomUUID()
 
-        // Store the service_token in the tokenStorage with the service_key as the key.
-        tokenStorage.set(service_key, {
+        // Store the service_token in the tokenStorage with the user_key as the key.
+        tokenStorage.set(user_key, {
             token: body.token,
             expires: Date.now() + 600000 // expires in 10 minutes
         })
@@ -49,16 +49,16 @@ authorizeRouter.post('/', async (req, res, next) => {
         // Remove expired tokens from the tokenStorage.
         pruneTokenStorage()
 
-        // Return service_key to the users service so that it can give it to the
-        // client. The client will then use the service_key to get the token from
+        // Return user_key to the users service so that it can give it to the
+        // client. The client will then use the user_key to get the token from
         // the tokenStorage.
-        res.json({ service_key })
+        res.json({ user_key })
 
 
     } catch (error) { next(error) }
 })
 
-// The client can get the token once they posses the service_key.
+// The client can get the token once they posses the user_key.
 authorizeRouter.get('/:key', async (req, res, next) => {
     try {
         const key = req.params.key

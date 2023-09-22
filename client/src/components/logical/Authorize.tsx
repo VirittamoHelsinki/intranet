@@ -12,21 +12,21 @@ const Authorize = (props: any) => {
     
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const service_key: string | null  = urlParams.get("service_key")
+    const user_key: string | null  = urlParams.get("user_key")
 
     const cookies = new Cookies()
 
     useEffect(() => {
         loadTokenFromCookies()
         
-        if (service_key) getAuthorization()
+        if (user_key) getAuthorization()
     }, [])
 
     const getAuthorization = async () => {
         try {
         
-        // Exchange the service_key for a token.
-        const token = await authorizeApi.getToken(service_key)
+        // Exchange the user_key for a token.
+        const token = await authorizeApi.getToken(user_key)
         
         // Save the token as a cookie.
         cookies.set('portalToken', token, {
