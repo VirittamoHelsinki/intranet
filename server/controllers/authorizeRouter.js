@@ -1,7 +1,7 @@
 const crypto = require('crypto')
 const axios = require('axios')
 const authorizeRouter = require('express').Router()
-const { domain_key } = require('../utils/config')
+const { service_key } = require('../utils/config')
 const { requireAuthorization } = require('../middleware/authorize')
 
 // a storage where temporary keys are mapped to tokens. Which
@@ -30,9 +30,9 @@ authorizeRouter.post('/', async (req, res, next) => {
         
         if (!body.email)      return res.status(400).send('email, was not provided')
         if (!body.token)      return res.status(401).send('token missing')
-        if (!body.domain_key) return res.status(401).send('invalid key')
+        if (!body.service_key) return res.status(401).send('invalid key')
 
-        if (body.domain_key !== domain_key) {
+        if (body.service_key !== service_key) {
             // If the key parameter was named correctly but the key itself was incorrect.
             return res.status(401).send('invalid key')
         }

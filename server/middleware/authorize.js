@@ -1,5 +1,5 @@
 const axios = require('axios')
-const { users_url, domain_key } = require('../utils/config')
+const { users_url } = require('../utils/config')
 
 // Ask authorization from the users service.
 const requireAuthorization = async (req, res, next) => {
@@ -11,9 +11,7 @@ const requireAuthorization = async (req, res, next) => {
       const response = await axios.get(
         `${users_url}/api/authorize`,
   
-        // Send the authentication password, so that
-        // the service knows its the user service that is sending the request.
-        { email: user.email, domain_key: domainKeys[domain] },
+        {},
         { headers: { 'Authorization': token }}
       )
 
