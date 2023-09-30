@@ -11,7 +11,6 @@ const requireAuthorization = async (req, res, next) => {
       const response = await axios.get(
         `${users_url}/api/authorize`,
   
-        {},
         { headers: { 'Authorization': token }}
       )
 
